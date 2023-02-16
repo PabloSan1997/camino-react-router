@@ -6,6 +6,7 @@ function LoginPage(){
     const auth = useAuth();
     const loggin=(e)=>{
         e.preventDefault();
+        auth.login({userName});
     }
     return (
        <>

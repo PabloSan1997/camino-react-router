@@ -1,52 +1,26 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "./auth";
 
 function Menu() {
+  const auth = useAuth();
+
+
   return (
     <nav>
       <ul>
-        {/* <li>
-            <Link to="/">Home</Link>
-        </li>
-        <li>
-            <Link to="/blog">Blog</Link>
-        </li>
-        <li>
-            <Link to="profile">Profile</Link>
-        </li> */}
-
-        {/* <li>
-          <NavLink
-            to="home"
-            style={({ isActive }) => ({ color: isActive ? "blue" : "red" })}
-          >
-            Home
-          </NavLink>
-        </li>
-        <li>
-        <NavLink
-          to="blog"
-          style={({ isActive }) => ({ color: isActive ? "blue" : "red" })}
-        >
-          blog
-        </NavLink>
-        </li>
-       <li>
-       <NavLink
-          to="profile"
-          style={({ isActive }) => ({ color: isActive ? "blue" : "red" })}
-        >
-          profile
-        </NavLink>
-       </li> */}
-       {routes.map(elemento=>(
-        <li key={elemento.text}>
+       {routes.map(elemento=>{
+        if(elemento.publicOnly && !!auth.user) return null;
+        if(elemento.private && !auth.user) return null;
+        return (
+          <li key={elemento.text}>
             <NavLink
             to={elemento.to}
             style={({ isActive }) => ({ color: isActive ? "blue" : "red" })}
             >{elemento.text}</NavLink>
         </li>
-       ))}
+        );
+      })}
       </ul>
     </nav>
   );
@@ -55,22 +29,28 @@ function Menu() {
 const routes = [];
 routes.push({
     to:'/',
-    text:"home"
+    text:"home",
+    private:false
 });
 routes.push({
     to:'/blog',
-    text:"Blog"
+    text:"Blog",
+    private:false
 });
 routes.push({
     to:'/profile',
-    text:"Profile"
+    text:"Profile",
+    private:true
 });
 routes.push({
   to:'/login',
-  text:"Login"
+  text:"Login",
+  private:false,
+  publicOnly:true
 });
 routes.push({
   to:'/logout',
-  text:"LogOut"
+  text:"LogOut",
+  private:true
 });
 export { Menu };

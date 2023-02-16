@@ -1,10 +1,13 @@
 import React from "react";
+import { useAuth } from "./auth";
 
 function ProfilePage(){
+    const auth = useAuth();
     return (
-        <div className="profilePage">
-            <h1>Mi perfil</h1>
-        </div>
+        <>
+            <h1>Perfil</h1>
+            <p>Welcome, {auth.user.userName}</p>
+        </>
     );   
 }
 export{ProfilePage}
