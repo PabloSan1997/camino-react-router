@@ -1,5 +1,5 @@
 import { HashRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./auth.js";
+import { AuthProvider, ProtectAutth } from "./auth.js";
 import { BlogPage } from "./blogPage.js";
 import { BlogPost } from "./BlogPost.js";
 import { HomePage } from "./HomePage.js";
@@ -20,8 +20,25 @@ function App() {
             <Route path=":slug" element={<BlogPost />} />
           </Route>
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/logout" element={<LogoutPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+
+          <Route
+            path="/logout"
+            element={
+              <ProtectAutth>
+                <LogoutPage />
+              </ProtectAutth>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectAutth>
+                <ProfilePage />
+              </ProtectAutth>
+            }
+          />
+
           <Route path="*" element={<p>No found</p>} />
         </Routes>
       </AuthProvider>
