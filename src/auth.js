@@ -2,12 +2,13 @@ import React from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const AuthContexto = React.createContext();
-
+const adminList=['Juan', 'Paco', 'Sanchez'];
 function AuthProvider({children}){
     const [user, setUser]=React.useState(null);
     const navegar = useNavigate(); 
     const login=({userName})=>{
-        setUser({userName});
+        const isAdmin = adminList.find(admin=>admin===userName);
+        setUser({userName, isAdmin});
         navegar('/profile');
     }
     const logout = () =>{
